@@ -39,14 +39,14 @@
             this.rptExportingtk.Location = new System.Drawing.Point(0, 0);
             this.rptExportingtk.Name = "rptExportingtk";
             this.rptExportingtk.ServerReport.BearerToken = null;
-            this.rptExportingtk.Size = new System.Drawing.Size(832, 653);
+            this.rptExportingtk.Size = new System.Drawing.Size(714, 653);
             this.rptExportingtk.TabIndex = 0;
             // 
             // frmExportingtk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(832, 653);
+            this.ClientSize = new System.Drawing.Size(714, 653);
             this.Controls.Add(this.rptExportingtk);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmExportingtk";

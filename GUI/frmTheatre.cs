@@ -1,6 +1,7 @@
 ﻿using GUI.DAO;
 using GUI.DTO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;//thư viện thay đổi vùng/quốc gia
@@ -15,6 +16,8 @@ namespace GUI
         int GAP = 7;//Khoảng cách giữa các ghế
 
         List<Ticket> listSeat = new List<Ticket>();
+
+        Dictionary<string, float> priceOfTicket = new Dictionary<string, float>();
 
         //dùng lưu vết các Ghế đang chọn
         List<Button> listSeatSelected = new List<Button>();
@@ -127,6 +130,8 @@ namespace GUI
                 listSeatSelected.Add(btnSeat);
                 plusPoint++;
                 lblPlusPoint.Text = plusPoint + "";
+
+                priceOfTicket.Add(btnSeat.Text, displayPrice);
             }
             else if (btnSeat.BackColor == Color.Yellow)
             {
@@ -144,6 +149,8 @@ namespace GUI
                 lblPlusPoint.Text = plusPoint + "";
                 grpLoaiVe.Enabled = false;
 
+
+                priceOfTicket.Remove(btnSeat.Text);
             }
             else if (btnSeat.BackColor == Color.Red)
             {
@@ -170,7 +177,12 @@ namespace GUI
             string current = now.ToString();
             foreach(Button btn in listSeatSelected)
             {
-                ListExportingtk.ExportingtkList.Add(new Exportingtk(current, lblInformation.Text, btn.Text, lblTime.Text, 85000));
+                //ListExportingtk.ExportingtkList.Add(new Exportingtk(current, lblInformation.Text, btn.Text, lblTime.Text, 85000));
+                float value;
+                if (priceOfTicket.TryGetValue(btn.Text, out value))
+                {
+                    ListExportingtk.ExportingtkList.Add(new Exportingtk(current, lblInformation.Text, btn.Text, lblTime.Text, value));
+                }
             }
         }
         //dùng để ẩn hiện lable điểm tích lũy của khách hàng thành viên
@@ -236,6 +248,7 @@ namespace GUI
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (result == DialogResult.OK)
             {
+
                 int ret = 0;
                 if (chkCustomer.Checked == true)
                 {
@@ -296,6 +309,8 @@ namespace GUI
                 total = total + ticket.Price - oldPrice;
                 payment = total - discount;
 
+                priceOfTicket.Remove(listSeatSelected[listSeatSelected.Count - 1].Text);
+                priceOfTicket.Add(listSeatSelected[listSeatSelected.Count - 1].Text, displayPrice);
                 LoadBill();
             }
         }
@@ -314,6 +329,9 @@ namespace GUI
                 total = total + ticket.Price - oldPrice;
                 payment = total - discount;
 
+                priceOfTicket.Remove(listSeatSelected[listSeatSelected.Count - 1].Text);
+                priceOfTicket.Add(listSeatSelected[listSeatSelected.Count - 1].Text, displayPrice);
+
                 LoadBill();
             }
         }
@@ -331,6 +349,9 @@ namespace GUI
                 displayPrice = ticket.Price;
                 total = total + ticket.Price - oldPrice;
                 payment = total - discount;
+
+                priceOfTicket.Remove(listSeatSelected[listSeatSelected.Count - 1].Text);
+                priceOfTicket.Add(listSeatSelected[listSeatSelected.Count - 1].Text, displayPrice);
 
                 LoadBill();
             }
